@@ -20,5 +20,3 @@ SOURCES += main.cpp \
 HEADERS += \
     QNETag.h \
     QNWindow.h
-
-CONFIG += console
