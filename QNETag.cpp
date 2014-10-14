@@ -38,41 +38,40 @@ QString QNETag::CalcETag(QString fileName)
     if(fi.exists() && fi.permission(QFile::ReadUser))
     {
         QFile fh(fileName);
-        bool opened=fh.open(QIODevice::ReadOnly);
+        bool opened = fh.open(QIODevice::ReadOnly);
         if (opened){
             qint64 fileLen = fh.size();
             if(fileLen <= CHUNK_SIZE)
             {
-                QByteArray fileData=fh.readAll();
-                QByteArray sha1Data=Sha1(fileData);
-                QByteArray hashData=sha1Data;
+                QByteArray fileData = fh.readAll();
+                QByteArray sha1Data = Sha1(fileData);
+                QByteArray hashData = sha1Data;
                 hashData.insert(0,0x16);
-                etag=UrlSafeBase64Encode(hashData);
+                etag = UrlSafeBase64Encode(hashData);
             }
             else
             {
-                int chunkCount=fileLen/CHUNK_SIZE;
-                if(fileLen%CHUNK_SIZE!=0)
+                int chunkCount = fileLen / CHUNK_SIZE;
+                if(fileLen % CHUNK_SIZE != 0)
                 {
-                    chunkCount+=1;
+                    chunkCount += 1;
                 }
                 QByteArray sha1AllData;
-                for(int i=0;i<chunkCount;i++)
+                for(int i=0; i<chunkCount; i++)
                 {
-                    qint64 chunkSize=CHUNK_SIZE;
-                    if(i==chunkCount-1)
+                    qint64 chunkSize = CHUNK_SIZE;
+                    if(i == chunkCount-1)
                     {
-                        chunkSize=fileLen-(chunkCount-1)*CHUNK_SIZE;
+                        chunkSize = fileLen-(chunkCount-1)*CHUNK_SIZE;
                     }
-                    QByteArray buf=QByteArray(chunkSize,' ');
-                    qint64 readCnt=fh.read(buf.data(),chunkSize);
-                    fh.seek(readCnt);
-                    QByteArray sha1Data=Sha1(buf);
+                    QByteArray buf = QByteArray(chunkSize,' ');
+                    fh.read(buf.data(),chunkSize);
+                    QByteArray sha1Data = Sha1(buf);
                     sha1AllData.append(sha1Data);
                 }
-                QByteArray hashData=Sha1(sha1AllData);
+                QByteArray hashData = Sha1(sha1AllData);
                 hashData.insert(0,0x96);
-                etag=UrlSafeBase64Encode(hashData);
+                etag = UrlSafeBase64Encode(hashData);
             }
             fh.close();
         }
