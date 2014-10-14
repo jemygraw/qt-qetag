@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QFileDialog>
 QNWindow::QNWindow(QWidget *parent) :
     QWidget(parent)
 {
@@ -45,6 +46,7 @@ QNWindow::QNWindow(QWidget *parent) :
     setMaximumSize(size);
 
     QObject::connect(calcETagBtn,SIGNAL(clicked()),this,SLOT(calBtnClicked()));
+    QObject::connect(browseFileBtn,SIGNAL(clicked()),this,SLOT(browseBtnClicked()));
 
 }
 
@@ -54,4 +56,23 @@ void QNWindow::calBtnClicked()
     QNETag x;
     QString etag=x.CalcETag(fileName);
     fileEtagEdit->setText(etag);
+}
+
+void QNWindow::browseBtnClicked()
+{
+    if(!openFileDialog)
+    {
+        openFileDialog=new QFileDialog(this);
+        QObject::connect(openFileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+    }
+    openFileDialog->show();
+}
+
+void QNWindow::onFileSelected(QString fileName)
+{
+    if(!fileName.isEmpty())
+    {
+        fileNameEdit->setText(fileName);
+        fileEtagEdit->setText("");
+    }
 }

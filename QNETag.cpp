@@ -5,7 +5,7 @@
 #include <QCryptographicHash>
 #include <QFileInfo>
 #include <QDataStream>
-#include <QDebug>
+
 QNETag::QNETag()
 {
 }
