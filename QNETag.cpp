@@ -15,9 +15,8 @@ QNETag::~QNETag()
 
 QString QNETag::UrlSafeBase64Encode(QByteArray data)
 {
-    QByteArray encodedData = data.toBase64();
+    QByteArray encodedData = data.toBase64(QByteArray::Base64UrlEncoding);
     QString encodedStr = QString(encodedData);
-    encodedStr = encodedStr.replace("+","-").replace("/","_");
     return encodedStr;
 }
 
@@ -46,7 +45,7 @@ QString QNETag::CalcETag(QString fileName)
                 QByteArray fileData = fh.readAll();
                 QByteArray sha1Data = Sha1(fileData);
                 QByteArray hashData = sha1Data;
-                hashData.insert(0,0x16);
+                hashData.prepend(0x16);
                 etag = UrlSafeBase64Encode(hashData);
             }
             else
@@ -64,13 +63,12 @@ QString QNETag::CalcETag(QString fileName)
                     {
                         chunkSize = fileLen-(chunkCount-1)*CHUNK_SIZE;
                     }
-                    QByteArray buf = QByteArray(chunkSize,' ');
-                    fh.read(buf.data(),chunkSize);
+                    QByteArray buf=fh.read(chunkSize);
                     QByteArray sha1Data = Sha1(buf);
                     sha1AllData.append(sha1Data);
                 }
                 QByteArray hashData = Sha1(sha1AllData);
-                hashData.insert(0,0x96);
+                hashData.prepend(0x96);
                 etag = UrlSafeBase64Encode(hashData);
             }
             fh.close();
