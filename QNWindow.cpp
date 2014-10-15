@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFileDialog>
+
 QNWindow::QNWindow(QWidget *parent) :
     QWidget(parent)
 {

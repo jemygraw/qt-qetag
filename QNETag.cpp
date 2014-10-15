@@ -4,7 +4,6 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QFileInfo>
-#include <QDataStream>
 
 QNETag::QNETag()
 {
