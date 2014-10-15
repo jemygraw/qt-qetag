@@ -11,7 +11,7 @@ QNWindow::QNWindow(QWidget *parent) :
 {
     //row 1
     fileNameLabel = new QLabel("File");
-    fileNameLabel->setFixedWidth(30);
+    fileNameLabel->setFixedWidth(35);
     fileNameEdit = new QLineEdit;
     browseFileBtn = new QPushButton("...");
 
@@ -22,7 +22,7 @@ QNWindow::QNWindow(QWidget *parent) :
 
     //row 2
     fileETagLabel = new QLabel("ETag");
-    fileETagLabel->setFixedWidth(30);
+    fileETagLabel->setFixedWidth(35);
     fileEtagEdit = new QLineEdit;
 
     QHBoxLayout *layout2=new QHBoxLayout;
@@ -41,7 +41,7 @@ QNWindow::QNWindow(QWidget *parent) :
     mainLayout->addLayout(layout3);
 
     setLayout(mainLayout);
-    QSize size(450,200);
+    QSize size(450,160);
     setMinimumSize(size);
     setMaximumSize(size);
 
