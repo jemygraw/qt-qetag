@@ -45,6 +45,9 @@ QNWindow::QNWindow(QWidget *parent) :
     setMinimumSize(size);
     setMaximumSize(size);
 
+    openFileDialog=new QFileDialog(this);
+    QObject::connect(openFileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+
     QObject::connect(calcETagBtn,SIGNAL(clicked()),this,SLOT(calBtnClicked()));
     QObject::connect(browseFileBtn,SIGNAL(clicked()),this,SLOT(browseBtnClicked()));
 
@@ -60,11 +63,6 @@ void QNWindow::calBtnClicked()
 
 void QNWindow::browseBtnClicked()
 {
-    if(!openFileDialog)
-    {
-        openFileDialog=new QFileDialog(this);
-        QObject::connect(openFileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
-    }
     openFileDialog->show();
 }
 
